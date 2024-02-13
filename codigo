@@ -1,0 +1,48 @@
+/*
+    __  ___           __    __ 
+   /  |/  /  ____ _  / /_  / /_
+  / /|_/ /  / __ `/ / __/ / __/
+ / /  / /  / /_/ / / /_  / /_  
+/_/  /_/   \__,_/  \__/  \__/  
+*/               
+
+/* 
+class CalculadoraPrecio:
+    def calcular_precio_sencillo(self, cantidad, valor_producto):
+        return cantidad * valor_producto
+
+    def calcular_precio_iva(self, cantidad, valor_producto, tasa_iva = 0.19):
+        return self.calcular_precio_sencillo(cantidad, valor_producto) * (1+tasa_iva)    
+
+    def calcular_precio_impuestos(self, cantidad, valor_producto, tasa_impuestos = 0.10):
+        return self.calcular_precio_sencillo(cantidad, valor_producto) * (1 + tasa_impuestos)
+
+    def calcular_precio_total(self, cantidad, valor_producto, tasa_iva = 0.19, tasa_impuestos = 0.10):
+        precio_iva = self.calcular_precio_iva(cantidad, valor_producto, tasa_iva)
+        precio_impuestos = self.calcular_precio_impuestos(cantidad, valor_producto, tasa_impuestos)
+        return precio_impuestos + precio_iva
+
+
+def main():
+    valor_producto = float(input(f"\033[91mIngrese el valor del producto:\033[0m "))
+    cantidad = int(input(f"\033[91mIngrese la cantidad del producto: \033[0m"))
+
+    calculadora = CalculadoraPrecio()
+
+    precio_sencillo = calculadora.calcular_precio_sencillo(cantidad, valor_producto)
+    precio_iva = calculadora.calcular_precio_iva(cantidad, valor_producto)
+    precio_impuestos = calculadora.calcular_precio_impuestos(cantidad, valor_producto)
+    precio_total = calculadora.calcular_precio_total(cantidad, valor_producto)
+
+# Ejemplo de uso
+    print(f"\033[92mPrecio base:\033[0m {precio_sencillo}")
+    print(f"\033[92mPrecio con el IVA:\033[0m {precio_iva}")
+    print(f"\033[92mPrecio con impuesto saludable:\033[0m {round(precio_impuestos)}")
+    print(f"\033[92mPrecio total:\033[0m {precio_total}")
+
+
+if __name__ == "__main__":
+    main()
+        
+
+        
