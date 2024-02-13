@@ -7,22 +7,22 @@ class Test_CalcularPrecioTotal(unittest.TestCase):
 
     def test_calculo_sencillo(self):
         resultado = self.calculadora.calcular_precio_sencillo(cantidad=2, valor_producto=100)
-        self.assertAlmostEqual(resultado, 200.0, places = 2)
+        self.assertAlmostEqual(resultado, 200.0, places=2)
 
     def test_calculo_con_iva(self):
-        resultado = self.calculadora.calcular_precio_iva(cantidad=2, valor_producto=100)
-        # Si la tasa de IVA es del 19%, el resultado sería 200 * (1 + 0.19) = 238.0
-        self.assertAlmostEqual(resultado, 238.0, places = 2)
+        resultado = self.calculadora.calcular_iva(cantidad=2, valor_producto=100, tasa_iva=0.19)
+        # Si la tasa de IVA es del 19%, el resultado sería 200 * 0.19 = 38.0
+        self.assertAlmostEqual(resultado, 38.0, places=2)
 
     def test_calculo_con_impuesto(self):
-        resultado = self.calculadora.calcular_precio_impuestos(cantidad=2, valor_producto=100)
-        # Si la tasa de impuestos es del 10%, el resultado sería 200 * (1 + 0.10) = 220.0
-        self.assertAlmostEqual(resultado, 220.0, places=2)    #Si es casi igual y tiene dos decimales iguales, pasa la prueba
+        resultado = self.calculadora.calcular_impuestos(cantidad=2, valor_producto=100, tasa_impuestos=0.10)
+        # Si la tasa de impuestos es del 10%, el resultado sería 200 * 0.10 = 20.0
+        self.assertAlmostEqual(resultado, 20.0, places=2)
 
     def test_calculo_total(self):
-        resultado = self.calculadora.calcular_precio_total(cantidad=2, valor_producto=100)
-        # Sumando el resultado de las pruebas anteriores, 238 + 220 = 458.0
-        self.assertAlmostEqual(resultado, 458.0, places = 2)
+        resultado = self.calculadora.calcular_precio_total(cantidad=2, valor_producto=100, tasa_iva=0.19, tasa_impuestos=0.10)
+        # Sumando el resultado de las pruebas anteriores, 200 + 38 + 20 = 258.0
+        self.assertAlmostEqual(resultado, 258.0, places=2)
 
 if __name__ == '__main__':
     unittest.main()
