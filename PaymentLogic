@@ -1,3 +1,10 @@
+class Invalid_purchase_amount(Exception):
+   """ERROR: El monto de compra debe ser mayor a 0, pon un monto válido:""" 
+class Invalid_num_payments(Exception):
+   """ERROR: Las cuotas deben ser mayores a 0, pon una cuota válida"""
+class Invalid_interest_rate(Exception):
+   """ERROR: La tasa de interes supera el máximo"""
+
 
 def calcPayment(purchase_amount,interest_rate,num_payments):
     """
@@ -8,11 +15,19 @@ def calcPayment(purchase_amount,interest_rate,num_payments):
 
     El resultado no esta redondeado
     """
-    if interest_rate == 0:
-        return purchase_amount / num_payments
-    else:
-        i = interest_rate
-        return (purchase_amount * i) / (1 - (1 + i) ** (-num_payments))
 
+    # Verificamos que la tasa de interes no se a mayor que 3.8% mensual
+
+    if purchase_amount <= 0:
+       raise Invalid_purchase_amount()
+
+    if num_payments <= 0:
+       raise Invalid_num_payments()
     
+    if interest_rate > ( 3.8/100 ) :
+       raise Invalid_interest_rate()
+    
+    i = interest_rate
+    return (purchase_amount * i) / (1 - (1 + i) ** (-num_payments))
+
 
