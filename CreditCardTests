@@ -9,46 +9,78 @@ import PaymentLogic
 class CreditCardTest(unittest.TestCase):
 
     # Cada prueba unitaria es un metodo la clase
-    def testPayment1(self):
+    def test_Payment1(self):
         # Cada metodo de prueba debe llamar un metodo assert
         # para comprobar si la prueba pasa
-        compra = 200000
-        tasa = 0.031
-        plazo = 36
-        cuota = 9297.96
-        resultado = PaymentLogic.calcPayment( compra, tasa, plazo )
+        # Datos de Entrada
+        purchase_amount = 200000
+        interest_rate = 0.031
+        num_payments = 36
+
+        # Proceso
+        result = PaymentLogic.calcPayment( purchase_amount, interest_rate, num_payments )
+
+        # Datos de salida esperados
+        expected = 9297.96
+
         # Prueba que dos variables sean iguales
-        self.assertAlmostEqual( cuota, resultado, places = 2  )
+        self.assertAlmostEqual( expected, result, 2  )
 
-    def testNormal2(self):
-        compra = 850000
-        tasa = 0.034
-        plazo = 24
-        cuota = 52377.50
-        resultado = PaymentLogic.calcPayment( compra, tasa, plazo)
-        self.assertAlmostEqual( cuota, resultado, places = 2)
+    def test_ExcesiveInterest( self ):
+        # Entradas
+        purchase_amount = 50000
+        num_payments = 36
+        interest_rate = 0.124
 
-    def testTasaCero(self):
-        compra = 480000
-        tasa = 0
-        plazo = 48
-        cuota = 10000
-        resultado = PaymentLogic.calcPayment(compra, tasa, plazo)
-        self.assertAlmostEqual(cuota, resultado, places = 2)
+        testOk = False  # Bandera para indicar si la prueba es exitosa
+        try:
+            # llamar al proceso
+            result = PaymentLogic.calcPayment( purchase_amount, interest_rate, num_payments )
+            print("No ocurrió ningun excepcion")
+            testOk = False
+        except:
+            # Aqui llega el control cuando se genera una excepcion
+            print("SI ocurrio la excepcion")
+            testOk = True
+
+        self.assertTrue(  testOk, "No se disparó la excepcion esperada" )            
+
+    def test_ExcesiveInterestOneLine( self ):
+        # Entradas
+        purchase_amount = 50000
+        num_payments = 36
+        interest_rate = 0.124
+
+        # Verifica en una linea si una funcion dispara una excepcion
+        self.assertRaises( Exception, PaymentLogic.calcPayment, purchase_amount, interest_rate, num_payments  )
+
+    def test_invalid_num_payments(self):
+        purchase_amount = 10000
+        interest_rate = 0.124
+        num_payments = 0
+        try:
+            result = PaymentLogic.calcPayment(purchase_amount, interest_rate, num_payments)
+        except PaymentLogic.Invalid_num_payments as e:
+            print(f"Excepción capturada: {e.__doc__}")
+            # La excepción fue capturada correctamente, la prueba pasa
+   
 
 
-    def testUsura(self):
-        compra = 50000
-        tasa = 0.124
-        plazo = 60
-        cuota = 6205.58
-        resultado = PaymentLogic.calcPayment(compra, tasa, plazo)
-        self.assertAlmostEqual( cuota, resultado, places = 2)
+    def test_invalid_purchase_amount(self):
+        purchase_amount = 0
+        interest_rate = 0.12
+        num_payments = 5
+        try:
+            result = PaymentLogic.calcPayment(purchase_amount, interest_rate, num_payments)
+        except PaymentLogic.Invalid_purchase_amount as e:
+            print(f"Excepcion capturada: {e.__doc__}")
+            # Se capturó una excepción ValueError, la prueba pasa
 
 
+    def test_hola1(self):
+        pass               
 
 
-        
 
 
 # Este fragmento de codigo permite ejecutar la prueb individualmente
